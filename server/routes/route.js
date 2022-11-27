@@ -1,4 +1,4 @@
-const routes = require('express').Router();
+const routes = require('express').Router();                 // require express framework
 const controller = require('../controller/controller');     // require a file
 
 routes.route('/api/categories')
