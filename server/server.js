@@ -15,7 +15,28 @@ app.use(express.json());
 // use rountes
 app.use(require('./routes/route'));
 
+
+// mongodb
+const con = requre('./db/connection.js');
+
 app.listen(port, ()=> {
     console.log(`Server is running on port: http://localhost:${port}`)
     
 })
+
+con.then(db => {
+    if (!db) return process.exit(1);
+
+    // listen to the http server
+    app.listen(port, () => {
+        console.log(`Sever is running on port: http://localhost:${port}`)
+    })
+
+    // error in mondb connection
+    // on method
+    // app.on('error', err => console.log("Failed To Connect with HTTP Server : "));
+    // (wrap this erro message with error parameter as follows)
+    app.on('error', err => console.log(`Failed To Connect with HTTP Server: ${err}`));
+}).catch(error => {
+    console.log(`Connection Failed...! ${error}`);
+});
