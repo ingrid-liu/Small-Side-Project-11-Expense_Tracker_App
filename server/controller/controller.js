@@ -85,9 +85,21 @@ async function get_Labels(req, res) {
     },
   ])
     .then((result) => {
-      res.json(result); // TODO 2 . If I change result into data, there is no error hint
+      let data = result.map((v) =>
+        Object.assign(
+          {},
+          {
+            _id: v._id,
+            name: v.name,
+            type: v.type,
+            amount: v.amount,
+            color: v.categories_info["color"], // TODO 3. this color calling method
+          }
+        )
+      );
+      res.json(data); // TODO 2 . If I change result into data, there is no error hint
     })
-    .catch((eoor) => {
+    .catch((error) => {
       res.status(400).json("Lookup Collection Error");
     });
 }
