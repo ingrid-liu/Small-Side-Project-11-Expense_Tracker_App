@@ -68,10 +68,35 @@ async function delete_Transaction(req, res) {
     });
 }
 
+// GET: http://localhost:8080/api/labels
+async function get_Labels(req, res) {
+  model.Transaction.aggregate([
+    // TODO 1 .aggregate --> $lookup
+    {
+      $lookup: {
+        from: "categories",
+        localField: "type",
+        foreignField: "type",
+        as: "categories_info",
+      },
+    },
+    {
+      $unwind: "$categories_info",
+    },
+  ])
+    .then((result) => {
+      res.json(result); // TODO 2 . If I change result into data, there is no error hint
+    })
+    .catch((eoor) => {
+      res.status(400).json("Lookup Collection Error");
+    });
+}
+
 module.exports = {
   create_Categories,
   get_Categories,
   create_Transaction,
   get_Transaction,
   delete_Transaction,
+  get_Labels,
 };
