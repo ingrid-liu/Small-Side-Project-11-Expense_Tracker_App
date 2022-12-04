@@ -5,6 +5,16 @@ export function getSum(transaction, type) {
   let sum = _(transaction)
     .groupBy("type")
     .map((objs, key) => {
+      // TODO: Uncaught (in promise) TypeError: Cannot convert undefined or null to object
+      //   // solution I
+      //   Object.keys(objs || {});
+
+      //   // solution II
+      //   objs.keys({ key: "value" });
+      //   if (window.UndefinedVariable) {
+      //     objs.assign(window.UndefinedVariable, {});
+      //   }
+
       if (!type) return _.sumBy(objs, "amount"); // sumBy all the objects by the amount, i.e. [300, 350, 500] sum of all these values
       return {
         type: key,
