@@ -9,7 +9,7 @@ export const apiSlice = createApi({
     getCategories: builder.query({
       // GET: 'http://localhost:8080/api/categories'
       query: () => "/api/categories",
-      providesTags: ["categories"],
+      providesTags: ["categories"], //-->  group the data together
     }),
 
     // get labels
