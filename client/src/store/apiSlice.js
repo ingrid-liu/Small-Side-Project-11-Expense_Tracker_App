@@ -39,9 +39,7 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["transaction"],
     }),
-  }), // endpoints
+  }),
 });
 
 export default apiSlice;
-
-// controller/controller

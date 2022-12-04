@@ -1,18 +1,20 @@
 import React from "react";
 import { default as api } from "../store/apiSlice";
+import { getLabels } from "../helper/helper";
 
 export default function Labels() {
   //   const { data, isFetching, isSuccess, isError } = api.useGetCategoriesQuery();
 
   // RTK query hook
   const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
-  //   console.log(data);
 
   let Transactions;
+
   if (isFetching) {
     Transactions = <div>Fetching</div>;
   } else if (isSuccess) {
-    Transactions = data.map((v, i) => (
+    console.log();
+    Transactions = getLabels(data, "type").map((v, i) => (
       <LabelComponent key={i} data={v}></LabelComponent>
     ));
   } else if (isError) {
@@ -35,7 +37,7 @@ function LabelComponent({ data }) {
         {/*since using style in a jsx component, wrap it inside a curly brace*/}
         <h3 className="test-md">{data.type ?? ""}</h3>
       </div>
-      <h3 className="fond-bold">{data.percent ?? 0}</h3>
+      <h3 className="fond-bold">{Math.round(data.percent) ?? 0}%</h3>
     </div>
   );
 }
