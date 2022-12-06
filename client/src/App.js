@@ -3,7 +3,7 @@ import "./App.css";
 import Graph from "./components/Graph";
 import Labels from "./components/Labels";
 import Form from "./components/Form";
-import Calculator from "./components/Calc/Calculator";
+import Calculator from "./components/Calculator/";
 
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
@@ -28,7 +28,7 @@ function App() {
               }
             />
             <Route path="/login" element={<></>} />
-            <Route path="/calc" element={<Calculator />} />
+            <Route path="/calculator" element={<Calculator />} />
           </Routes>
         </div>
       </div>
