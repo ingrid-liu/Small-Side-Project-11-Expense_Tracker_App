@@ -1,9 +1,9 @@
 // import logo from './logo.svg';
 import "./App.css";
 import Graph from "./components/Graph";
-import Labels from "./components/Labels";
+import Login from "./components/Login";
 import Form from "./components/Form";
-import Calculator from "./components/Calc/Calculator";
+import Calculator from "./components/Calc";
 
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
@@ -27,7 +27,7 @@ function App() {
                 </div>
               }
             />
-            <Route path="/login" element={<></>} />
+            <Route path="/login" element={<Login />} />
             <Route path="/calc" element={<Calculator />} />
           </Routes>
         </div>
