@@ -4,16 +4,30 @@ import Graph from "./components/Graph";
 import Login from "./components/Login";
 import Form from "./components/Form";
 import Calculator from "./components/Calc";
-
+import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
+
 function App() {
+  const [userEmail, setUserEmail] = useState(
+    localStorage.getItem("userEmail") || ""
+  );
+  const RequireAuth = ({ children }) => {
+    if (userEmail == "") {
+      return <Login passUserEmail={setUserEmail} />;
+    }
+    console.log(userEmail);
+    return children;
+  };
+
   return (
     <BrowserRouter>
       <div className="App">
         <div className="container mx-auto max-w-6xl text-center drop-shadow-lg text-gray-800">
           <h1 className="text-4xl py-8 mb-10 bg-slate-800 text-white rounded">
             Expense Tracker
+            <br />
+            Login as {userEmail}
           </h1>
 
           {/* grid columns */}
@@ -21,13 +35,14 @@ function App() {
             <Route
               index
               element={
-                <div className="grid md:grid-cols-2 gap-4">
-                  <Graph />
-                  <Form />
-                </div>
+                <RequireAuth>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <Graph />
+                    <Form />
+                  </div>
+                </RequireAuth>
               }
             />
-            <Route path="/login" element={<Login />} />
             <Route path="/calc" element={<Calculator />} />
           </Routes>
         </div>

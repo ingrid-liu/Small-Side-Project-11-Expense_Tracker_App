@@ -1,6 +1,7 @@
 // const Schema = require('mongoose').Schema; // define the mongoose variable and write like the follows:
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt-nodejs");
 
 // I: categories => field => ['type', 'color']
 const categories_model = new Schema({
@@ -16,12 +17,29 @@ const transaction_model = new Schema({
   date: { type: Date, default: Date.now },
 });
 
+// III: users  => field => ['userEmail', 'password']
+const user_model = new Schema({
+  userEmail: { type: String },
+  password: { type: String },
+});
+
+user_model.methods.generateHash = function (password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+user_model.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
 // Add these models to database
 const Categories = mongoose.model("categories", categories_model);
 const Transaction = mongoose.model("transaction", transaction_model);
+const User = mongoose.model("users", user_model);
 
 exports.default = Transaction;
 module.exports = {
   Categories,
   Transaction,
+  User,
 };
