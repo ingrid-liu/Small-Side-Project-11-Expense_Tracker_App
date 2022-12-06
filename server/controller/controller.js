@@ -107,21 +107,22 @@ async function get_Labels(req, res) {
 
 // GET: http://localhost:8080/api/users
 async function get_User(req, res) {
-  await model.User.findOne(
-    { username: req.body.userEmail },
-    function (err, user) {
-      if (!user.validPassword(req.body.password)) {
-        res.json({ userEmail: "" });
-      } else {
-        res.json({ userEmail: req.body.userEmail });
-      }
+  model.User.findOne({ userEmail: req.body.userEmail }, function (err, user) {
+    if (user == null || !user.validPassword(req.body.password)) {
+      res.json({ userEmail: "" });
+    } else {
+      res.json({ userEmail: req.body.userEmail });
     }
-  );
+  });
 }
 
 // POST: http://localhost:8080/api/users
 async function create_User(req, res) {
-  let data = await model.User.findOne({ username: req.body.userEmail });
+  console.log(req);
+  if (req.body.userEmail == undefined || req.body.password == undefined) {
+    return res.status(400).json({ message: `Error while creating user` });
+  }
+  let data = await model.User.findOne({ userEmail: req.body.userEmail });
   if (data != null) {
     res.json({ userEmail: "" });
   } else {
@@ -129,12 +130,11 @@ async function create_User(req, res) {
       userEmail: req.body.userEmail,
     });
     new_user.password = new_user.generateHash(req.body.password);
-    console.log(new_user);
     new_user.save(function (err) {
       if (!err) return res.json({ userEmail: req.body.userEmail });
       return res
         .status(400)
-        .json({ message: `Error while creating transaction ${err}` });
+        .json({ message: `Error while creating user ${err}` });
     });
   }
 }

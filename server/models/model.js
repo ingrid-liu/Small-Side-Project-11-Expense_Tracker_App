@@ -18,19 +18,22 @@ const transaction_model = new Schema({
 });
 
 // III: users  => field => ['userEmail', 'password']
-const user_model = new Schema({
-  userEmail: { type: String },
-  password: { type: String },
-});
-
-user_model.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-
-// checking if password is valid
-user_model.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
+const user_model = new Schema(
+  {
+    userEmail: { type: String },
+    password: { type: String },
+  },
+  {
+    methods: {
+      generateHash(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+      },
+      validPassword(password) {
+        return bcrypt.compareSync(password, this.password);
+      },
+    },
+  }
+);
 
 // Add these models to database
 const Categories = mongoose.model("categories", categories_model);

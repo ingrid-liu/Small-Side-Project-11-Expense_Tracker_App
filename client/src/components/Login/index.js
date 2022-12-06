@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { default as api } from "../../store/apiSlice";
 
 export default function (props) {
-  let [authMode, setAuthMode] = useState("signin");
+  const [authMode, setAuthMode] = useState("signin");
 
-  let userEmailRef = React.createRef();
-  let passwordRef = React.createRef();
+  const userEmailRef = React.createRef();
+  const passwordRef = React.createRef();
+  const [createNewUser] = api.useCreateNewUserMutation();
+  const [validateUserLogin] = api.useValidateUserLoginMutation();
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
@@ -15,21 +18,29 @@ export default function (props) {
   const handleOnSignin = () => {
     let userEmail = userEmailRef.current.value;
     let password = passwordRef.current.value;
-    localStorage.setItem("userEmail", userEmail);
-    props.passUserEmail(userEmail);
+    validateUserLogin({ userEmail: userEmail, password: password }).then(
+      (response) => {
+        localStorage.setItem("userEmail", response.data["userEmail"]);
+        props.passUserEmail(response.data["userEmail"]);
+      }
+    );
   };
 
   const handleOnSignUp = () => {
     let userEmail = userEmailRef.current.value;
     let password = passwordRef.current.value;
-    localStorage.setItem("userEmail", userEmail);
-    props.passUserEmail(userEmail);
+    createNewUser({ userEmail: userEmail, password: password }).then(
+      (response) => {
+        localStorage.setItem("userEmail", response.data["userEmail"]);
+        props.passUserEmail(response.data["userEmail"]);
+      }
+    );
   };
 
   if (authMode === "signin") {
     return (
       <div style={{ display: "inline-block" }}>
-        <form className="Auth-form">
+        <div className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
             <div className="text-center">
@@ -57,23 +68,19 @@ export default function (props) {
               />
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={handleOnSignin}
-              >
+              <button className="btn btn-primary" onClick={handleOnSignin}>
                 Sign in
               </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
 
   return (
     <div style={{ display: "inline-block" }}>
-      <form className="Auth-form">
+      <div className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign In</h3>
           <div className="text-center">
@@ -101,16 +108,12 @@ export default function (props) {
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleOnSignUp}
-            >
+            <button className="btn btn-primary" onClick={handleOnSignUp}>
               Sign up
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
