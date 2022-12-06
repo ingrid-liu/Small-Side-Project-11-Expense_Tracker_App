@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Wrapper from "./Wrapper";
 import Screen from "./Screen";
-import ButtonBox from "./ButtonBox";
+import CalcButtonBox from "./CalcButtonBox";
 import Button from "./Button";
 
 const btnValues = [
@@ -128,7 +128,7 @@ const App = () => {
     <div style={{ display: "inline-block" }}>
       <Wrapper>
         <Screen value={calc.num ? calc.num : calc.res} />
-        <ButtonBox>
+        <CalcButtonBox>
           {btnValues.flat().map((btn, i) => {
             return (
               <Button
@@ -153,7 +153,7 @@ const App = () => {
               />
             );
           })}
-        </ButtonBox>
+        </CalcButtonBox>
       </Wrapper>
     </div>
   );
