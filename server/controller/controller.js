@@ -104,6 +104,40 @@ async function get_Labels(req, res) {
     });
 }
 
+// GET: http://localhost:8080/api/users
+async function get_User(req, res) {
+  model.User.findOne({ userEmail: req.body.userEmail }, function (err, user) {
+    if (user == null || !user.validPassword(req.body.password)) {
+      res.json({ userEmail: "" });
+    } else {
+      res.json({ userEmail: req.body.userEmail });
+    }
+  });
+}
+
+// POST: http://localhost:8080/api/users
+async function create_User(req, res) {
+  console.log(req);
+  if (req.body.userEmail == undefined || req.body.password == undefined) {
+    return res.status(400).json({ message: `Error while creating user` });
+  }
+  let data = await model.User.findOne({ userEmail: req.body.userEmail });
+  if (data != null) {
+    res.json({ userEmail: "" });
+  } else {
+    var new_user = new model.User({
+      userEmail: req.body.userEmail,
+    });
+    new_user.password = new_user.generateHash(req.body.password);
+    new_user.save(function (err) {
+      if (!err) return res.json({ userEmail: req.body.userEmail });
+      return res
+        .status(400)
+        .json({ message: `Error while creating user ${err}` });
+    });
+  }
+}
+
 module.exports = {
   create_Categories,
   get_Categories,
@@ -111,4 +145,6 @@ module.exports = {
   get_Transaction,
   delete_Transaction,
   get_Labels,
+  get_User,
+  create_User,
 };

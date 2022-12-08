@@ -16,6 +16,24 @@ const transaction_model = new Schema({
   date: { type: Date, default: Date.now },
 });
 
+// III: users  => field => ['userEmail', 'password']
+const user_model = new Schema(
+  {
+    userEmail: { type: String },
+    password: { type: String },
+  },
+  {
+    methods: {
+      generateHash(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+      },
+      validPassword(password) {
+        return bcrypt.compareSync(password, this.password);
+      },
+    },
+  }
+);
+
 // Add these models to database
 const Categories = mongoose.model("categories", categories_model);
 const Transaction = mongoose.model("transaction", transaction_model);
