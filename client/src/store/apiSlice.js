@@ -39,6 +39,24 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["transaction"],
     }),
+
+    // get user
+    validateUserLogin: builder.mutation({
+      query: (data) => ({
+        // POST: 'http://localhost:8080/api/users'
+        url: "/api/users",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createNewUser: builder.mutation({
+      query: (data) => ({
+        // PUT: 'http://localhost:8080/api/users'
+        url: "/api/users",
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 

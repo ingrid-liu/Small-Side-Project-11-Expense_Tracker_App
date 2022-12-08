@@ -1,13 +1,24 @@
 // import logo from './logo.svg';
 import "./App.css";
 import Graph from "./components/Graph";
-import Labels from "./components/Labels";
+import Login from "./components/Login";
 import Form from "./components/Form";
-import Calculator from "./components/Calculator/";
-
+import Calculator from "./components/Calculator";
+import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
+
 function App() {
+  const [userEmail, setUserEmail] = useState(
+    localStorage.getItem("userEmail") || ""
+  );
+  const RequireAuth = ({ children }) => {
+    if (userEmail == "") {
+      return <Login passUserEmail={setUserEmail} />;
+    }
+    console.log(userEmail);
+    return children;
+  };
   return (
     <BrowserRouter>
       <div className="App">
