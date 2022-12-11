@@ -32,10 +32,12 @@ function App() {
             <Route
               index
               element={
-                <div className="grid md:grid-cols-2 gap-4">
-                  <Graph />
-                  <Form />
-                </div>
+                <RequireAuth>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <Graph />
+                    <Form />
+                  </div>
+                </RequireAuth>
               }
             />
             <Route path="/login" element={<></>} />
