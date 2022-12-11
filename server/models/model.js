@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt-nodejs");
+
 // const Schema = require('mongoose').Schema; // define the mongoose variable and write like the follows:
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -37,9 +39,11 @@ const user_model = new Schema(
 // Add these models to database
 const Categories = mongoose.model("categories", categories_model);
 const Transaction = mongoose.model("transaction", transaction_model);
+const User = mongoose.model("user", user_model);
 
 exports.default = Transaction;
 module.exports = {
   Categories,
   Transaction,
+  User,
 };

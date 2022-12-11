@@ -13,10 +13,11 @@ function App() {
     localStorage.getItem("userEmail") || ""
   );
   const RequireAuth = ({ children }) => {
+    console.log("here 1-App()-RequrieAuth", userEmail);
     if (userEmail == "") {
       return <Login passUserEmail={setUserEmail} />;
     }
-    console.log(userEmail);
+    console.log("here 2-App()-RequrieAuth", userEmail);
     return children;
   };
   return (

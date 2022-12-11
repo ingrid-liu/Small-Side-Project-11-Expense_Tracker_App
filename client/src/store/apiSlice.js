@@ -40,7 +40,7 @@ export const apiSlice = createApi({
       invalidatesTags: ["transaction"],
     }),
 
-    // get user
+    // get user - check occupancy
     validateUserLogin: builder.mutation({
       query: (data) => ({
         // POST: 'http://localhost:8080/api/users'
@@ -49,6 +49,7 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+
     createNewUser: builder.mutation({
       query: (data) => ({
         // PUT: 'http://localhost:8080/api/users'

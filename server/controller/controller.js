@@ -19,7 +19,7 @@ async function create_Categories(req, res) {
 
 // GET: http://localhost:8080/api/categories
 async function get_Categories(req, res) {
-  let data = await model.Categories.find({}); // inside find function, pass {} object -> return all the objects from the Categories collection
+  let data = await model.Categories.findOne({}); // inside find function, pass {} object -> return all the objects from the Categories collection
 
   // filter the collection
   let filter = await data.map((item) =>
