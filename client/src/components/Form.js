@@ -10,7 +10,10 @@ export default function Form() {
   const [addTransaction] = api.useAddTransactionMutation();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    data.userEmail = localStorage.getItem("userEmail");
+    console.log("--from Form:", data.userEmail);
+
+    console.log("--Form:", data);
     if (!data) return {};
     await addTransaction(data).unwrap();
     resetField("name");

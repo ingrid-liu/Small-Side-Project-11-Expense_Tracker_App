@@ -20,7 +20,6 @@ async function create_Categories(req, res) {
 // GET: http://localhost:8080/api/categories
 async function get_Categories(req, res) {
   let data = await model.Categories.find({}); // inside find function, pass {} object -> return all the objects from the Categories collection
-
   // filter the collection
   let filter = await data.map((item) =>
     Object.assign({}, { type: item.type, color: item.color })
@@ -32,13 +31,14 @@ async function get_Categories(req, res) {
 // POST: http://localhost:8080/api/transaction
 async function create_Transaction(req, res) {
   if (!req.body) return res.status(400).json("Post HTTP Data not rovided");
-  let { name, type, amount } = req.body;
+  let { name, type, amount, userEmail } = req.body;
 
   const create = await new model.Transaction({
     name,
     type,
     date: new Date(),
     amount,
+    userEmail,
   });
 
   create.save(function (err) {
@@ -52,6 +52,7 @@ async function create_Transaction(req, res) {
 // GET: http://localhost:8080/api/transaction
 async function get_Transaction(req, res) {
   let data = await model.Transaction.find({});
+  console.log("from controller, get_Transaction:", data);
   return res.json(data);
 }
 
@@ -71,7 +72,7 @@ async function delete_Transaction(req, res) {
 // GET: http://localhost:8080/api/labels
 async function get_Labels(req, res) {
   model.Transaction.aggregate([
-    // TODO 1 .aggregate --> $lookup
+    // console.log("!! from controller get_Labels "),     // TODO 1 - 好像不行哎
     {
       $lookup: {
         from: "categories",
@@ -93,6 +94,7 @@ async function get_Labels(req, res) {
             name: v.name,
             type: v.type,
             amount: v.amount,
+            userEmail: v.userEmail,
             color: v.categories_info["color"], // TODO 3. this color calling method
           }
         )
@@ -104,6 +106,40 @@ async function get_Labels(req, res) {
     });
 }
 
+// GET: http://localhost:8080/api/users
+async function get_User(req, res) {
+  model.User.findOne({ userEmail: req.body.userEmail }, function (err, user) {
+    if (user == null || !user.validPassword(req.body.password)) {
+      res.json({ userEmail: "" });
+    } else {
+      res.json({ userEmail: req.body.userEmail });
+    }
+  });
+}
+
+// POST: http://localhost:8080/api/users
+async function create_User(req, res) {
+  console.log(req);
+  if (req.body.userEmail == undefined || req.body.password == undefined) {
+    return res.status(400).json({ message: `Error while creating user` });
+  }
+  let data = await model.User.findOne({ userEmail: req.body.userEmail });
+  if (data != null) {
+    res.json({ userEmail: "" });
+  } else {
+    var new_user = new model.User({
+      userEmail: req.body.userEmail,
+    });
+    new_user.password = new_user.generateHash(req.body.password);
+    new_user.save(function (err) {
+      if (!err) return res.json({ userEmail: req.body.userEmail });
+      return res
+        .status(400)
+        .json({ message: `Error while creating user ${err}` });
+    });
+  }
+}
+
 module.exports = {
   create_Categories,
   get_Categories,
@@ -111,4 +147,6 @@ module.exports = {
   get_Transaction,
   delete_Transaction,
   get_Labels,
+  get_User,
+  create_User,
 };

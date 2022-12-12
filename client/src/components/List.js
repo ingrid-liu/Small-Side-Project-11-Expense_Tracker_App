@@ -8,6 +8,7 @@ export default function List() {
   // TODO Still confused about the difference usage of [] & {}
 
   let Transactions;
+
   const handlerClick = (e) => {
     // console.log(e.target.dataset.id);
     if (!e.target.dataset.id) return 0;
@@ -17,13 +18,20 @@ export default function List() {
   if (isFetching) {
     Transactions = <div>Fetching</div>;
   } else if (isSuccess) {
-    Transactions = data.map((v, i) => (
-      <Transaction key={i} category={v} handler={handlerClick}></Transaction>
-    ));
+    Transactions = data.map(function (v, i) {
+      if (v.userEmail == localStorage.getItem("userEmail")) {
+        return (
+          <Transaction
+            key={i}
+            category={v}
+            handler={handlerClick}
+          ></Transaction>
+        );
+      }
+    });
   } else if (isError) {
     Transactions = <div>Error</div>;
   }
-
   return (
     <div className="flex flex-col py-6 gap-3">
       <h1 className="py-4 font-bold text-xl">History</h1>
@@ -33,6 +41,7 @@ export default function List() {
 }
 
 function Transaction({ category, handler }) {
+  console.log("--- from List, Transaction:", category);
   if (!category) return null;
   return (
     <div

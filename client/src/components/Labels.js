@@ -13,7 +13,10 @@ export default function Labels() {
   if (isFetching) {
     Transactions = <div>Fetching</div>;
   } else if (isSuccess) {
-    Transactions = getLabels(data, "type").map((v, i) => (
+    const processedData = data.filter(
+      (e) => e.userEmail == localStorage.getItem("userEmail")
+    );
+    Transactions = getLabels(processedData, "type").map((v, i) => (
       <LabelComponent key={i} data={v}></LabelComponent>
     ));
   } else if (isError) {

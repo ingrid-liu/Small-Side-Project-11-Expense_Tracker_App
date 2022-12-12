@@ -11,11 +11,15 @@ export default function Graph() {
   const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
 
   let graphData;
+  let processedData;
 
   if (isFetching) {
     graphData = <div>Fetching</div>;
   } else if (isSuccess) {
-    graphData = <Doughnut {...chart_Data(data)}></Doughnut>;
+    processedData = data.filter(
+      (e) => e.userEmail == localStorage.getItem("userEmail")
+    );
+    graphData = <Doughnut {...chart_Data(processedData)}></Doughnut>;
   } else if (isError) {
     graphData = <div>Error</div>;
   }
@@ -28,7 +32,7 @@ export default function Graph() {
           <h3 className="mb-4 font-bold title">
             Total
             <span className="block text-3xl text-emerald-400">
-              ${getTotal(data) ?? 0}
+              ${getTotal(processedData) ?? 0}
             </span>
           </h3>
         </div>
