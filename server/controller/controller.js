@@ -19,8 +19,8 @@ async function create_Categories(req, res) {
 
 // GET: http://localhost:8080/api/categories
 async function get_Categories(req, res) {
-  let data = await model.Categories.findOne({}); // inside find function, pass {} object -> return all the objects from the Categories collection
-
+  let data = await model.Categories.find({}); // inside find function, pass {} object -> return all the objects from the Categories collection
+  console.log("------here", data);
   // filter the collection
   let filter = await data.map((item) =>
     Object.assign({}, { type: item.type, color: item.color })
@@ -71,7 +71,7 @@ async function delete_Transaction(req, res) {
 // GET: http://localhost:8080/api/labels
 async function get_Labels(req, res) {
   model.Transaction.aggregate([
-    // TODO 1 .aggregate --> $lookup
+    // console.log("!! from controller get_Labels "),     // TODO 1 - 好像不行哎
     {
       $lookup: {
         from: "categories",

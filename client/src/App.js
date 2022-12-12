@@ -40,7 +40,7 @@ function App() {
               element={
                 <RequireAuth>
                   <p>Welcome, {userEmail}</p>
-                  <button class="button" onClick={Logout}>
+                  <button className="button" onClick={Logout}>
                     Logout
                   </button>
                   <div className="grid md:grid-cols-2 gap-4">
