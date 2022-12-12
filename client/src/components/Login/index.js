@@ -17,7 +17,6 @@ export default function (props) {
 
   const handleOnSignin = () => {
     let userEmail = userEmailRef.current.value;
-    console.log("from login: ", userEmail);
     let password = passwordRef.current.value;
     validateUserLogin({ userEmail: userEmail, password: password }).then(
       (response) => {
