@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-:root{
-  --color-yellow : #f9c74f;
+:root {
+  --color-yellow: #f9c74f;
   --color-purple: #9d4edd;
 }
 
-* > *{
-  font-family: 'Poppins', sans-serif;
+* > * {
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -28,7 +28,6 @@
   background-color: var(--color-purple);
 }
 
-
 .chart .title {
   position: absolute;
   left: 0;
@@ -39,9 +38,19 @@
 }
 
 .form-input {
-  @apply  
-  mt-1 block w-full py-2 px-3 border border-gray-200 
+  @apply mt-1 block w-full py-2 px-3 border border-gray-200 
   bg-white rounded-md focus:outline-none 
   focus:ring-indigo-500 sm:text-sm
-  /* mt: margin-top, w: weight, padding by, padding 3x*/
+  /* mt: margin-top, w: weight, padding by, padding 3x*/;
+}
+
+.button {
+  background-color: var(--color-purple); /* purple */
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
 }

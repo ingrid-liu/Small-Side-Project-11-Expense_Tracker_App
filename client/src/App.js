@@ -12,6 +12,11 @@ function App() {
   const [userEmail, setUserEmail] = useState(
     localStorage.getItem("userEmail") || ""
   );
+  const Logout = () => {
+    localStorage.setItem("userEmail", "");
+    setUserEmail("");
+  };
+
   const RequireAuth = ({ children }) => {
     console.log("here 1-App()-RequrieAuth", userEmail);
     if (userEmail == "") {
@@ -34,6 +39,10 @@ function App() {
               index
               element={
                 <RequireAuth>
+                  <p>Welcome, {userEmail}</p>
+                  <button class="button" onClick={Logout}>
+                    Logout
+                  </button>
                   <div className="grid md:grid-cols-2 gap-4">
                     <Graph />
                     <Form />
