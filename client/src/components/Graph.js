@@ -9,14 +9,16 @@ Chart.register(ArcElement);
 
 export default function Graph() {
   const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
-  const processedData = data.filter(
-    (e) => e.userEmail == localStorage.getItem("userEmail")
-  );
+
   let graphData;
+  let processedData;
 
   if (isFetching) {
     graphData = <div>Fetching</div>;
   } else if (isSuccess) {
+    processedData = data.filter(
+      (e) => e.userEmail == localStorage.getItem("userEmail")
+    );
     graphData = <Doughnut {...chart_Data(processedData)}></Doughnut>;
   } else if (isError) {
     graphData = <div>Error</div>;

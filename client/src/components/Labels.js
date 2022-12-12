@@ -8,14 +8,14 @@ export default function Labels() {
   // RTK query hook
   const { data, isFetching, isSuccess, isError } = api.useGetLabelsQuery();
 
-  const processedData = data.filter(
-    (e) => e.userEmail == localStorage.getItem("userEmail")
-  );
   let Transactions;
 
   if (isFetching) {
     Transactions = <div>Fetching</div>;
   } else if (isSuccess) {
+    const processedData = data.filter(
+      (e) => e.userEmail == localStorage.getItem("userEmail")
+    );
     Transactions = getLabels(processedData, "type").map((v, i) => (
       <LabelComponent key={i} data={v}></LabelComponent>
     ));
