@@ -10,12 +10,13 @@ const categories_model = new Schema({
   color: { type: String, default: "#FCBE44" },
 });
 
-// II: transactions  => field => ['name', 'type', 'amount', 'date']
+// II: transactions  => field => ['name', 'type', 'amount', 'date', + 'userEmail']
 const transaction_model = new Schema({
   name: { type: String, default: "Anonymous" },
   type: { type: String, default: "Investment" },
   amount: { type: Number },
   date: { type: Date, default: Date.now },
+  userEmail: { type: String },
 });
 
 // III: users  => field => ['userEmail', 'password']

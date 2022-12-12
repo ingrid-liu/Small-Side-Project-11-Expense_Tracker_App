@@ -20,7 +20,6 @@ async function create_Categories(req, res) {
 // GET: http://localhost:8080/api/categories
 async function get_Categories(req, res) {
   let data = await model.Categories.find({}); // inside find function, pass {} object -> return all the objects from the Categories collection
-  console.log("------here", data);
   // filter the collection
   let filter = await data.map((item) =>
     Object.assign({}, { type: item.type, color: item.color })
@@ -32,13 +31,14 @@ async function get_Categories(req, res) {
 // POST: http://localhost:8080/api/transaction
 async function create_Transaction(req, res) {
   if (!req.body) return res.status(400).json("Post HTTP Data not rovided");
-  let { name, type, amount } = req.body;
+  let { name, type, amount, userEmail } = req.body;
 
   const create = await new model.Transaction({
     name,
     type,
     date: new Date(),
     amount,
+    userEmail,
   });
 
   create.save(function (err) {
@@ -52,6 +52,7 @@ async function create_Transaction(req, res) {
 // GET: http://localhost:8080/api/transaction
 async function get_Transaction(req, res) {
   let data = await model.Transaction.find({});
+  console.log("from controller, get_Transaction:", data);
   return res.json(data);
 }
 
@@ -93,6 +94,7 @@ async function get_Labels(req, res) {
             name: v.name,
             type: v.type,
             amount: v.amount,
+            userEmail: v.userEmail,
             color: v.categories_info["color"], // TODO 3. this color calling method
           }
         )

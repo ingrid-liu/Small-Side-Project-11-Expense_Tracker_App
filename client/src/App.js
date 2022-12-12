@@ -18,11 +18,10 @@ function App() {
   };
 
   const RequireAuth = ({ children }) => {
-    console.log("here 1-App()-RequrieAuth", userEmail);
+    console.log("App()-RequrieAuth", userEmail);
     if (userEmail == "") {
       return <Login passUserEmail={setUserEmail} />;
     }
-    console.log("here 2-App()-RequrieAuth", userEmail);
     return children;
   };
   return (
