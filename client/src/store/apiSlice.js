@@ -5,6 +5,7 @@ const baseURI = "http://localhost:8080";
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: baseURI }),
   endpoints: (builder) => ({
+    
     // get categories
     getCategories: builder.query({
       // GET: 'http://localhost:8080/api/categories'
