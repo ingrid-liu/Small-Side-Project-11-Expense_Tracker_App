@@ -28,6 +28,7 @@ const user_model = new Schema(
   {
     methods: {
       generateHash(password) {
+        // ENSURE the security of the password: generateHash bcrypt: bcrypt is a password-hashing function design --> guard against the threats
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
       },
       validPassword(password) {

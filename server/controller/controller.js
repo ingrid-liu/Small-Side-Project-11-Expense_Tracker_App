@@ -106,7 +106,7 @@ async function get_Labels(req, res) {
     });
 }
 
-// GET: http://localhost:8080/api/users
+// POST: http://localhost:8080/api/users    // ACCEPT parameter and pass to mongoose model and return the result to the client
 async function get_User(req, res) {
   model.User.findOne({ userEmail: req.body.userEmail }, function (err, user) {
     if (user == null || !user.validPassword(req.body.password)) {
@@ -117,7 +117,7 @@ async function get_User(req, res) {
   });
 }
 
-// POST: http://localhost:8080/api/users
+// PUT: http://localhost:8080/api/users
 async function create_User(req, res) {
   console.log(req);
   if (req.body.userEmail == undefined || req.body.password == undefined) {

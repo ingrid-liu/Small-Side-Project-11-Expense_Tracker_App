@@ -4,11 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { default as api } from "../../store/apiSlice";
 
 export default function (props) {
-  const [authMode, setAuthMode] = useState("signin");
+  const [authMode, setAuthMode] = useState("signin"); // initial value
 
-  const userEmailRef = React.createRef();
+  const userEmailRef = React.createRef(); // ref: create a referance points to DOM for the email input
   const passwordRef = React.createRef();
-  const [createNewUser] = api.useCreateNewUserMutation();
+  const [createNewUser] = api.useCreateNewUserMutation(); // apiSlice
   const [validateUserLogin] = api.useValidateUserLoginMutation();
 
   const changeAuthMode = () => {
@@ -16,12 +16,12 @@ export default function (props) {
   };
 
   const handleOnSignin = () => {
-    let userEmail = userEmailRef.current.value;
+    let userEmail = userEmailRef.current.value; // html input
     let password = passwordRef.current.value;
     validateUserLogin({ userEmail: userEmail, password: password }).then(
       (response) => {
-        localStorage.setItem("userEmail", response.data["userEmail"]);
-        props.passUserEmail(response.data["userEmail"]);
+        localStorage.setItem("userEmail", response.data["userEmail"]); // pass the username/psw to the server, and validate the u/p match the record in db
+        props.passUserEmail(response.data["userEmail"]); // if login success --> pass username to parent component (app.js)
       }
     );
   };
@@ -31,13 +31,14 @@ export default function (props) {
     let password = passwordRef.current.value;
     createNewUser({ userEmail: userEmail, password: password }).then(
       (response) => {
-        localStorage.setItem("userEmail", response.data["userEmail"]);
+        localStorage.setItem("userEmail", response.data["userEmail"]); // localStorage stores the login status so the user won't log out on refresh..
         props.passUserEmail(response.data["userEmail"]);
       }
     );
   };
 
   if (authMode === "signin") {
+    // HTML: switch between sign-in and sign-up
     return (
       <div style={{ display: "inline-block" }}>
         <div className="Auth-form">
@@ -55,7 +56,7 @@ export default function (props) {
                 type="email"
                 className="form-control mt-1"
                 placeholder="Enter email"
-                ref={userEmailRef}
+                ref={userEmailRef} // ADD react reference for this element
               />
             </div>
             <div className="form-group mt-3">

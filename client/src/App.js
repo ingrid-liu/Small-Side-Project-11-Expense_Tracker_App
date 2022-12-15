@@ -46,6 +46,12 @@ function App() {
                     <Graph />
                     <Form />
                   </div>
+
+                  <div className="grid md:grid-cols-6 gap-6 float-center">
+                    <a className="calButton" href="/calculator">
+                      Calculator
+                    </a>
+                  </div>
                 </RequireAuth>
               }
             />

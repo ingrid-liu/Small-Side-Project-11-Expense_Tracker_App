@@ -14,8 +14,8 @@ routes
 
 routes
   .route("/api/users")
-  .post(controller.get_User)
-  .put(controller.create_User);
+  .post(controller.get_User) // accept post request from client & handle to controller.get_User
+  .put(controller.create_User); // accept put request from client & handle to controller.get_User
 
 routes.route("/api/labels").get(controller.get_Labels);
 
